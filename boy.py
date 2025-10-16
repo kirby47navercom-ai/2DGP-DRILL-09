@@ -77,7 +77,7 @@ class Idle:
 
     def exit(self,e):
         pass
-
+#ㅇ
     def do(self):
         self.boy.frame = (self.boy.frame + 1) % 8
         if get_time() - self.boy_wait_start_time> 2.0:
