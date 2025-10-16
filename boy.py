@@ -26,6 +26,8 @@ class AutoRun:
         self.boy = boy
     def enter(self,e):
         pass
+    def exit(self,e):
+        pass
 
     pass
 class Run:
