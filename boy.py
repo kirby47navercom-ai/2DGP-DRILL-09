@@ -28,6 +28,8 @@ class AutoRun:
         pass
     def exit(self,e):
         pass
+    def do(self):
+        pass
 
     pass
 class Run:
