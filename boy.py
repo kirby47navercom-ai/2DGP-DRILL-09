@@ -1,5 +1,5 @@
 from pico2d import load_image, get_time
-from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT
+from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT, SDLK_a
 
 from state_machine import StateMachine
 
@@ -19,8 +19,8 @@ def left_down(e):
     return e[0]=='INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LEFT
 def left_up(e):
     return e[0]=='INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
-def a_up(e):
-    return e[0]=='INPUT' and e[1].type == SDL_KEYUP and e[1].key == 'a'
+def a_down(e):
+    return e[0]=='INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
 class AutoRun:
     def __init__(self, boy):
@@ -36,7 +36,7 @@ class AutoRun:
         if get_time() - self.boy_wait_start_time> 5.0:
             self.boy.state_machine.handle_state_event(('TIME_OUT',None))
 
-        self.boy.x += self.boy.face_dir*30
+        self.boy.x += self.boy.face_dir
 
         pass
     def draw(self):
@@ -127,12 +127,14 @@ class Boy:
         self.IDLE = Idle(self)
         self.SLEEP = Sleep(self)
         self.RUN = Run(self)
+        self.AUTO = AutoRun(self)
         self.state_machine = StateMachine(
-            self.SLEEP,#시작 상태
+            self.IDLE,#시작 상태
             {
                 self.SLEEP: {space_down: self.IDLE},
-                self.IDLE: {right_up:self.RUN,left_up:self.RUN,right_down:self.RUN,left_down:self.RUN,time_out:self.SLEEP},
-                self.RUN: {right_down:self.IDLE,left_down:self.IDLE,right_up:self.IDLE,left_up:self.IDLE}
+                self.IDLE: {right_up:self.RUN,left_up:self.RUN,right_down:self.RUN,left_down:self.RUN,time_out:self.SLEEP,a_down:self.AUTO},
+                self.RUN: {right_down:self.IDLE,left_down:self.IDLE,right_up:self.IDLE,left_up:self.IDLE},
+                self.AUTO:{time_out:self.IDLE}
             }
         )
 
