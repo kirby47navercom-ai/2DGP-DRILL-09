@@ -24,6 +24,9 @@ def a_up(e):
 class AutoRun:
     def __init__(self, boy):
         self.boy = boy
+    def enter(self,e):
+        pass
+
     pass
 class Run:
 
