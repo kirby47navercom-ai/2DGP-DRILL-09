@@ -70,10 +70,11 @@ class Idle:
 
     def __init__(self, boy):
         self.boy = boy
-        self.boy_wait_start_time = get_time()
+        self.boy_wait_start_time=None
 
     def enter(self,e):
         self.boy.dir = 0
+        self.boy_wait_start_time = get_time()
 
     def exit(self,e):
         pass
@@ -102,11 +103,11 @@ class Boy:
         self.SLEEP = Sleep(self)
         self.RUN = Run(self)
         self.state_machine = StateMachine(
-            self.IDLE,#시작 상태
+            self.SLEEP,#시작 상태
             {
                 self.SLEEP: {space_down: self.IDLE},
                 self.IDLE: {right_up:self.RUN,left_up:self.RUN,right_down:self.RUN,left_down:self.RUN,time_out:self.SLEEP},
-                self.RUN: {right_down:self.RUN,left_down:self.RUN,right_up:self.IDLE,left_up:self.IDLE}
+                self.RUN: {right_down:self.IDLE,left_down:self.IDLE,right_up:self.IDLE,left_up:self.IDLE}
             }
         )
 
