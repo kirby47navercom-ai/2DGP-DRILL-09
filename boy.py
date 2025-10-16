@@ -30,6 +30,8 @@ class AutoRun:
         pass
     def do(self):
         pass
+    def draw(self):
+        pass
 
     pass
 class Run:
